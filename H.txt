@@ -1,7 +1,4 @@
 library("edgeR")
-
-ERR458948
-
 files <- c(
 "ERR458493.fastq.gz.quant.counts",
 "ERR458494.fastq.gz.quant.counts",
@@ -9,7 +6,7 @@ files <- c(
 "ERR458501.fastq.gz.quant.counts"
 )
 
-labels=c("w_1_1", "w_1_2", w_1_3", "w_12_1", "w_12_2", "w_12_3", "m_1_1", "m_1_2", "m_1_3", "m_2_1", "m_2_2", "m_2_3")
+labels=c("A", "B", "C", "D")
 
 data <- readDGE(files)
 
