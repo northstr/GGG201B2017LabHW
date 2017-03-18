@@ -1,0 +1,157 @@
+Ê
+# Install edge R 
+cd
+ git clone https://github.com/ctb/2017-ucdavis-igg201b.git
+
+sudo Rscript --no-save ~/2017-ucdavis-igg201b/lab7/install-edgeR.R
+
+# Copy salmon
+cd
+ curl -L -O https://github.com/COMBINE-lab/salmon/releases/download/v0.8.0/Salmon-0.8.0_linux_x86_64.tar.gz
+ tar xzf Salmon-0.8.0_linux_x86_64.tar.gz
+ export PATH=$PATH:$HOME/Salmon-latest_linux_x86_64/bin
+Ê
+Ê
+#  make directory named yeast
+mkdir yeast
+ cd yeast
+Ê
+Ê
+#  Load data files for both mutant and wild type (6 files from 2 different biological replicates for mutant and same for wild type)
+Ê
+#Mutant Data Files:
+
+#From Biological Rep 1 (3 technical replicates)
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458500/ERR458500.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458501/ERR458501.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458502/ERR458502.fastq.gz
+Ê
+#From Biological Rep 2 (3 technical replicates)
+
+ curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458507/ERR458507.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458508/ERR458508.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458509/ERR458509.fastq.gz
+Ê
+#Wild Data Files:
+Ê
+#From Biological Rep 1
+Ê
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458493/ERR458493.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458494/ERR458494.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458495/ERR458495.fastq.gz
+Ê
+#From Biological Rep 2
+Ê
+
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458878/ERR458878.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458879/ERR458879.fastq.gz
+        curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR458/ERR458880/ERR458880.fastq.gz
+Ê
+#(Type ls to make sure all 12 files have been uploaded)
+Ê
+# Download the yeast reference transcriptome:
+Ê
+curl -O http://downloads.yeastgenome.org/sequence/S288C_reference/orf_dna/orf_coding.fasta.gz
+Ê
+# Index the yeast transcriptome:
+Ê
+salmon index --index yeast_orfs --type quasi --transcripts orf_coding.fasta.gz
+Ê
+# Run salmon on all the samples:
+for i in *.fastq.gz
+        do
+            salmon quant -i yeast_orfs --libType U -r $i -o $i.quant --seqBias --gcBias
+        done
+Ê
+# Collect all of the sample counts usingÊthis Python script:
+Ê
+curl -L -O https://github.com/ngs-docs/2016-aug-nonmodel-rnaseq/raw/master/files/gather-counts.py
+ python2 gather-counts.py
+Ê
+Ê
+#  Run edgeR usingÊthe new scriptÊ(more biological replicates are added for both wild type and mutant type) 
+
+git clone https://github.com/northstr/GGG201B2017LabHW.git
+
+#all the content files of are in yeast directory under folder GGG201B2017LabHW and are displayed in the jupyter console under the name of this folder
+
+Rscript --no-save ~/GGG201B2017LabHW/H.txt
+
+# Viewing the plot
+Jupyter console >>yeast >> yeast-MA-plot.pdf and yeast-MDS-plot.pdf
+
+# Viewing results for differentially expressed genes
+
+
+
+# Going to the repository
+
+
+git clone https://github.com/northstr/GGG201B2017LabHW.git
+
+
+# Directory
+
+cd ~/GGG201B2017LabHW
+ 
+mkdir functional-analysis
+ cd functional-analysis
+
+
+# Starting R in the terminal
+ 	R	
+
+# Reading edge R output from this new dataset
+
+gene.data.new <- read.csv(file='../yeast-edgeRR.csv', row.names=1)
+
+
+
+# Subsetting the data to obtain differentially expressed genes
+
+de.genes.new <- subset(gene.data.new, FDR < 0.05)
+
+#Subset data to obtain those that are increase in wildtype condition
+
+up.genes.new <-subset(de.genes.new, logFC > 1)
+up.genes.names.new <-row.names(up.genes.new)
+length(up.genes.names.new)
+
+		#219 genes
+
+
+#LAB 8 differentially expressed genes
+
+cd
+git clone https://github.com/ctb/2017-ucdavis-igg201b.git
+cd ~/2017-ucdavis-igg201b/lab9/
+
+mkdir functional-analysis
+ cd functional-analysis
+
+R
+
+gene.data <- read.csv(file='../yeast-edgeR.csv', row.names=1)
+de.genes <- subset(gene.data, FDR < 0.05)
+ up.genes <-subset(de.genes, logFC > 1)
+ up.genes.names <-row.names(up.genes)
+length(up.genes.names)
+
+		#800 genes	
+
+
+
+
+
+#Comments:
+
+#MDS: plot has nicely clustered the technical replicates for each biological replicate. Thus our biological samples are reliable.
+
+#MA plot: Compare to plot for Lab8 ; less spread for the data at LHS  for genes with low CPM. A large number of differentially expressed genes (red dots) are down regulated. Supported by the fact that we have added more biological replicates in this study (SNF2 is a transcription regulator; when mutated can lead to down regulation of the genes in the mutants)
+
+#Genes gain or lost: By adding one more biological replicate for both mutant and wild type (each with 3 technical replicates), we are increasing the data points. Thus, only 219 genes were differentially expressed in the wild type in this case unlike 800 genes in lab 8 dataset when only one biological replicate (with 3 technical replicates). So we lost 589 genes differentially expressing in wild type population used in Lab 8.
+
+
+
+
+
