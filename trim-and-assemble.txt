@@ -146,7 +146,7 @@ length(up.genes.names)
 
 #MA plot: Compare to plot for Lab8 ; less spread for the data at LHS  for genes with low CPM. A large number of differentially expressed genes (red dots) are down regulated. Supported by the fact that we have added more biological replicates in this study (SNF2 is a transcription regulator; when mutated can lead to down regulation of the genes in the mutants)
 
-#Genes gain or lost: By adding one more biological replicate for both mutant and wild type (each with 3 technical replicates), we are increasing the data points. Thus, only 219 genes were differentially expressed in the wild type in this case unlike 800 genes in lab 8 dataset when only one biological replicate (with 3 technical replicates). So we lost 589 genes differentially expressing in wild type population used in Lab 8.
+#Genes gain or lost: By adding one more biological replicate for both mutant and wild type (each with 3 technical replicates), we are increasing the data points. Thus, only 219 genes were differentially expressed in the wild type at an FDR < 0.05 in this dataset unlike 800 genes in lab 8 dataset when only one biological replicate (with 3 technical replicates). So we lost 589 genes differentially expressing in wild type population used in Lab 8.
 
 
 
